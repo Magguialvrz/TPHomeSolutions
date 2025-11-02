@@ -1,11 +1,12 @@
+package entidades;
 
 
 
-public class HomeSolutions {
+public class HomeSolution {
 	private Diccionario<int, Proyecto> Proyectos;
 	private Diccionario<int, Empleado> Empleados;
 	
-	
+
 	public void agregarProyecto() {
 	
 	}
@@ -74,6 +75,7 @@ public class HomeSolutions {
 	
 	}
 	
+
 	public lista proyectosFinalizados() {
 	
 	}
@@ -109,4 +111,8 @@ public class HomeSolutions {
 	public void liberarEmpleadosDeProyecto(int idProyecto) {
 	
 	}
-}
+
+	public void registrarProyecto(int legajoEmpleado) {
+		
+	}
+	}

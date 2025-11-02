@@ -12,7 +12,7 @@ public class Cliente {
 		this.telefono = telefono;
 		this.email = email;
 	}
-	
+	// VER SI SE NECESITAN LAS DE ABAJO
 		public String darNombre() {
 		
 			return this.nombre;
@@ -26,12 +26,4 @@ public class Cliente {
 	        return this.telefono;
 	    }
 
-	    public void actualizarEmail(String nuevoEmail) {
-	        this.email = nuevoEmail;
-	    }
-
-	    public void actualizarTelefono(int nuevoTelefono) {
-	        this.telefono = nuevoTelefono;
-	    }
-		
 }

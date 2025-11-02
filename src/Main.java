@@ -1,5 +1,5 @@
 import entidades.Empleado;
-import entidades.EnpleadoDePlanta;
+import entidades.EmpleadoPlantaPermanente;//empleadoDePlanta
 import entidades.HomeSolution;
 import gui.PanelManager;
 
@@ -7,6 +7,7 @@ import gui.PanelManager;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+    	System.out.println("FUNCIONA EL MAIN ");
         HomeSolution homeSolution=new HomeSolution();
         String titulos[]={"Pintar","Instacion electrica","Trabajos jardineria","Instalar AA"};
         String descripciones[]={"","","",""};
