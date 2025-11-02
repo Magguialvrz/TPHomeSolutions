@@ -3,6 +3,7 @@ package entidades;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.Collections; //Lo usamos para retornar la lista de tareas y que no se puedan modificar
+import java.util.HashMap;
 
 public class Proyecto {
 	

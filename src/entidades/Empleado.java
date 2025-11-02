@@ -44,6 +44,11 @@ public abstract class Empleado {
 		this.cantDeRetraso++;
 		this.tuvoRetraso = true;
 	}
+	
+	public String darEstado() {
+		return this.estado;
+	}
+	}
 	// abs // cambie int dias porque en tarea tiraba error cuando usaba el metodo
 	public abstract double cobrarPagoBase(int dias) ;
 }

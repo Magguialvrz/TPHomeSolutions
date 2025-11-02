@@ -39,9 +39,13 @@ public class Tarea {
 	}
 	
 	//LISTA
-	public boolean hayEmpleadoAsignado() {
+	public boolean tieneEmpleado() {
 		return this.empleadoAsignado != null;
+		
 	}
+	public void asignarEmpleado(Empleado empleado) {
+        this.empleadoAsignado = empleado;
+    }
 	
 	//LISTA
 	public void eliminarEmpleadoAsignado() {
@@ -49,6 +53,7 @@ public class Tarea {
 		this.empleadoAsignado = null;
 	
 	}
+	
 //////////////////
 	//NO ME ACUERDO QUE TIENE QUE HACER ESTE METODO
 	//////////////////////////
@@ -83,15 +88,6 @@ public class Tarea {
 	        System.out.println("Estado inválido: " + nuevoEstado);
 	    }
 	}
-//	public void actualizarEstado() {
-	//	
-		//if(this.estado.equalsIgnoreCase("pendiente")) {
-	//		this.estado = "finalizada";
-	//	}else {
-		//	this.estado = "pendiente";
-		//}
-	
-//	}
 
 	//LISTA
 	public String darTitulo() {
@@ -118,7 +114,15 @@ public class Tarea {
 			return this.empleadoAsignado.darNumLegajo();
 		}
 		
+        System.out.println("No hay empleado asignado a esta tarea.");
 		return -1; //O UN SYSTEM.OUT.PRINTL"NO HAY EMPLEADO"
 	
 	}
+	
+
+
+	@Override
+	public String toString(){
+		return this.darTitulo();
+			}
 }

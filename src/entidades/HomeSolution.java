@@ -1,29 +1,83 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class HomeSolution implements IHomeSolution {
-	private HashMap<int, Proyecto> Proyectos;
-	private HashMap<int, Empleado> Empleados;
+	private HashMap <Integer, Proyecto> Proyectos;
+	private HashMap <Integer, Empleado> Empleados;
+	private int proximoLegajo = 1;
+	
+	//LISTA
+	public void agregarProyecto(int idProyecto) {
+        Proyecto proyecto = buscarProyecto(idProyecto); //busca el proyecto dado su id
+
+        if (proyecto != null) {
+            Proyectos.put(idProyecto, proyecto);
+            System.out.println("Proyecto agregado con éxito");
+        } else
+            System.out.println("No se encontró un proyecto con ID ");
+        }
+    }
+	//LISTO
+	public LocalDate fechaFinalizacionProyecto(int idProyecto, LocalDate fecha) {
+		
+			Proyecto proyecto = buscarProyecto(idProyecto); //busca el proyecto dado su id
+			
+        if (proyecto != null) {
+        	return proyecto.darFechaRealFin();         // Si existe, devolver la fecha real de finalización
+
+        } 
+        else { 
+        	System.out.println("No se encontró un proyecto con ID ");
+        	return  null;
+	}
+
+	}
 	
 
-	public void agregarProyecto() {
-	
-	}
-	
-	public void fechaFinalizacionProyecto(int idProyecto, LocalDate fecha) {
-	
-	}
-	
 	public void asignarEmpleadoATarea(int idProyecto, String tituloTarea) {
-	
+		Proyecto proyecto = buscarProyecto(idProyecto); //busca el proyecto dado su id
+		if (proyecto == null) {
+	        System.out.println("No se encontró un proyecto con ID " + idProyecto);
+	        return;
+	    }
+		Tarea tarea= proyecto.buscarTarea(tituloTarea);
+		if (tarea == null) {
+	        System.out.println("No se encontró la tarea con título " + tituloTarea);
+	        return;
+	    }
+
+	    if (tarea.tieneEmpleado()) {
+	        System.out.println("La tarea ya tiene un empleado asignado");
+	        return;
+	    }
+
+	    // Buscar un empleado disponible
+	    for (Empleado e : Empleados.values()) {
+	        if (!e.estaAsignado()) { // si el empleado no esta asignado, lo asigna a la tarea
+	            tarea.asignarEmpleado(e);
+	            e.actualizarEstado(); // lo marca como ocupado
+	            System.out.println("Empleado " + e.darNumLegajo() + " asignado a la tarea " + tituloTarea);
+	            return;
+	        }
+	    }
+
+	    System.out.println("No hay empleados disponibles para asignar a la tarea " + tituloTarea);
 	}
 	
-	public void registrarEmpleado(int legajoEmpleado) {
-	
+	private int generarLegajo() {
+	    return proximoLegajo++; // devuelve el siguiente legajo y lo incrementa
 	}
+	
+	
+	
+	
+		
+		
+
 	
 	public boolean estaFinalizado(int idProyecto) {
 	
@@ -40,7 +94,10 @@ public class HomeSolution implements IHomeSolution {
 	public lista proyectosPendientes() {
 	
 	}
-	
+	 public Proyecto buscarProyecto(int idProyecto) {
+	        // Suponemos que la búsqueda se hace en la colección de proyectos
+	        return proyectos.get(idProyecto);
+	    }
 	public Proyecto buscarProyecto(int idProyecto) {
 	
 	}
@@ -120,15 +177,24 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	    int legajo = generarLegajo(); // legajo automático
+	    EmpleadoContratado e = new EmpleadoContratado();
+	    e.crearEmpleadoContratado(nombre, legajo, valor);
+	    
+	    // Agregarlo a la colección de empleados del sistema
+	    Empleados.put(legajo, e); // suponiendo que usas un HashMap<Integer, Empleado>
 	}
 
 	@Override
 	public void registrarEmpleado(String nombre, double valor, String categoria) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		int legajo = generarLegajo(); 
+		    EmpleadoDePlanta e = new EmpleadoDePlanta();
+		    e.crearEmpleadoPlanta(nombre, legajo, valor, categoria);
+		    
+		    Empleados.put(legajo, e);
+		}
 		
-	}
+	
 
 	@Override
 	public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio,
