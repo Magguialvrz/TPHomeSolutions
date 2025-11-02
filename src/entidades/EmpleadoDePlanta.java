@@ -1,11 +1,12 @@
-public class EmpleadoPlantaPermanente extends Empleado {
+package entidades;
+
+public class EmpleadoDePlanta extends Empleado {
 	
 	
 	private double valorPorDia;
 	private String categoria;
-//	 int legajo,
 	
-	public void crearEmpleadoPlanta(String nombre, double valorPorDia, String categoria) {		
+	public void crearEmpleadoPlanta(String nombre, int legajo, double valorPorDia, String categoria) {		
 		super.crearEmpleado(nombre, legajo);
 		this.valorPorDia = valorPorDia;
 		this.categoria = categoria;

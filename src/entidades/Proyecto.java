@@ -1,13 +1,17 @@
+package entidades;
+
 import java.util.*;
+import java.time.LocalDate;
+import java.util.Collections; //Lo usamos para retornar la lista de tareas y que no se puedan modificar
 
 public class Proyecto {
 	
 	private int identificacion;
-	private Fecha fechaInicio; // ver como solucionar el error de fechas 
-	private Fecha fechaEstimadaFin;
-	private Fecha fechaRealFin;
+	private LocalDate fechaInicio; // ver como solucionar el error de fechas 
+	private LocalDate fechaEstimadaFin;
+	private LocalDate fechaRealFin;
 	private Cliente cliente;
-	private Map <String, Tarea> tareas; // cambie Diccionario por Map, IA me dijo que en java se usa asi, a confirmar
+	private HashMap <String, Tarea> tareas; // ES HASHMAPcambie Diccionario por Map, IA me dijo que en java se usa asi, a confirmar
 	private String direccion;
 	private double costo;
 	private double costoFinal;
@@ -16,103 +20,114 @@ public class Proyecto {
 	
 	
 	
-	
-	public void crear(int identificacion, Fecha fechaInicio, Cliente cliente, Tarea tareas) {
+	//VER TAREAS
+	public void crear(int identificacion, LocalDate fechaInicio, Cliente cliente, Tarea tareas) {
 	        this.identificacion = identificacion;
 	        this.fechaInicio = fechaInicio;
 	        this.cliente = cliente;
-	        this.tareas = (tareas != null) ? (Map<String, Tarea>) tareas : new HashMap<>();
+	        this.tareas = new HashMap<>();
 	        this.direccion = "";
 	        this.costo = 0;
 	        this.costoFinal = 0;
 	        this.estado = "pendiente";
 	        this.historialEmpleados = new ArrayList<>();
 	}
-	
+	//LISTO
 	public void guardarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+	//LISTO
 	public void agregarDireccionVivienda(String direccion) {
 		this.direccion = direccion;
 	}
-	
-	public void registrarTarea(String tituloTarea) {
-		if(!tareas.containsKey(tituloTarea)) {
-			tareas.put(tituloTarea,new Tarea()); // verificar 
-		}
+	//LE PASAMOS EL OBJ TAREA Y LA CLAVE ES SU TITULO Y EL VALOR EL OBJ TAREA.
+	public void registrarTarea(Tarea tarea) {
+	    tareas.put(tarea.darTitulo(), tarea);
 	}
-	
+
+	//public void registrarTarea(String tituloTarea) {
+	//	if(!tareas.containsKey(tituloTarea)) {
+	//		tareas.put(tituloTarea,new Tarea()); // verificar 
+		//}
+	//} ESTE NO SIRVIRIA PQ CREA UNA TAREA VACIA.
+	//LISTO
 	public boolean estaPendiente() {
-		return this.estado.equalsIgnoreCase("pendiente");
+	    return this.estado.equals(Estado.pendiente);
 	}
-	
+	//LISTO
 	public boolean estaActivo() {
-		return this.estado.equalsIgnoreCase("activo");
+	    return this.estado.equals(Estado.activo);
 	}
-	
+	//LISTO
 	public boolean estaFinalizado() {
-		return this.estado.equalsIgnoreCase("finalizado");
+	    return this.estado.equals(Estado.finalizado);
+	}
+	//LISTO
+	public void actualizarEstadoProyecto(String nuevoEstado) {
+	    String estadoMayuscula = nuevoEstado.toUpperCase(); 	    // Convertimos a mayúsculas para comparar con las constantes
+//SI ES IGUAL A ALGUNA CONSTANTE QUE ESTA EN LA CLASE ESTADO, QUE SE ACTUALICE, SINO, IMPRIME ERROR
+	    if (estadoMayuscula.equals(Estado.activo) ||
+	    	estadoMayuscula.equals(Estado.pendiente) ||
+	    	estadoMayuscula.equals(Estado.finalizado)) {
+	        this.estado = estadoMayuscula;
+	    } else {
+	        System.out.println("Estado inválido: " + nuevoEstado);
+	    }
 	}
 	
-	public void actualizarEstadoProyecto(String estado) {
-		this.estado = estado;
-	}
-	
-	public void actualizarFechaRealFin(Fecha fecha) {
-		this.fechaRealFin = fecha;
-	}
-	
+	//LISTO
 	public double darCostoFinal() {
 		return this.costoFinal;
 	}
-	
+	//LISTO
 	public Tarea buscarTarea(String tituloTarea) {
-		return tareas.get(tituloTarea);
+		
+	    Tarea tarea = tareas.get(tituloTarea); //busco en el hashmap tareas, la tarea de tituloTarea, lo guardo en la variable tarea que es del tipo Tarea.
+	    if (tarea == null) {
+	        System.out.println("No se encontró la tarea con título: " + tituloTarea);
+	    }
+	    return tarea;
 	}
-	
-	public int darIdentifiacion() {
+//LISTO	
+	public int darIdentificacion() {
 		return this.identificacion;
 	}
-	
-	public void actualizarFechaEstimadaFin(int idias) {
+	//LISTA
+	public void actualizarFechaEstimadaFin(int dias) {
 	   if (this.fechaEstimadaFin != null) {
-	   
-	            this.fechaEstimadaFin.sumarDias(dias); // supongo que es un error de fecha
+		    this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
+		    // this.fechaEstimadaFin.sumarDias(dias); // supongo que es un error de fecha
 	   }
-	
 	}
-	
+	//LISTA
 	public void actualizarFechaRealFin(int dias) {
-		
 		if(this.fechaRealFin != null) {
-			this.fechaRealFin.sumarDias(dias);
+		    this.fechaRealFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
 		}
-	
 	}
-	
+	//LISTA
 	public void registrarEmpleadoEnHistorial(Empleado empleado) {
-	
-        if (!historialEmpleados.contains(empleado)) {
+        if (!historialEmpleados.contains(empleado)) { //Si no esta en la lista, agregarlo.
             historialEmpleados.add(empleado);
         }
 	}
-	
-	public Fecha darFechaEstimadaFin() {
-	
+	//LISTO
+	public LocalDate darFechaEstimadaFin() {
 		return this.fechaEstimadaFin;
 	}
-	
-	public Fecha darFechaRealFin() {
-	
+	//LISTO
+	public LocalDate darFechaRealFin() {
 		return this.fechaRealFin;
 	}
-	
+	//LISTO
 	public String darEstado() {
 		return this.estado;
 	}
-	
-	public Diccionario <String,Tarea> darTareas() {
-		return this.tareas;
+	public HashMap<String, Tarea> darTareas() {
+	    return new HashMap<>(Collections.unmodifiableMap(this.tareas)); //Crea una copia HASHMAP de mis tareas, si bien pueden modificarla, no afecta a nuestras tareas
 	}
+
+	//public Diccionario <String,Tarea> darTareas() {
+		//return this.tareas;
+	//}
 }

@@ -1,4 +1,4 @@
-
+package entidades;
 
 public class Tarea {
 	
@@ -52,13 +52,13 @@ public class Tarea {
 //////////////////
 	//NO ME ACUERDO QUE TIENE QUE HACER ESTE METODO
 	//////////////////////////
-	public void actualizarCosto(Object cantidadDias) {
+//	public void actualizarCosto(Object cantidadDias) {
 		
-		 double dias = (cantidadDias instanceof Number) ? ((Number) cantidadDias).doubleValue() : 0;
-	     if (this.empleadoAsignado != null) {
-	     this.costo = this.empleadoAsignado.cobrarPagoBase(dias);
-	     }
-	}
+	//	 double dias = (cantidadDias instanceof Number) ? ((Number) cantidadDias).doubleValue() : 0;
+	//     if (this.empleadoAsignado != null) {
+	  //   this.costo = this.empleadoAsignado.cobrarPagoBase(dias);
+	 //    }
+	//}//
 ///////////////////////////////////
 	//NO ME ACUERDO EL CONTEXTO DEL METODO
 	/////////////////
@@ -72,14 +72,15 @@ public class Tarea {
 		return this.diasDeRetraso > 0 ;
 	
 	}
-//yo haria: si esta pendiente pasa a activa y si esta activa a finalizada
-	public void actualizarEstado() {
-	    if (this.estado.equals(Estado.pendiente)) {
-	        this.estado = Estado.activo;
-	    } else if (this.estado.equals(Estado.activo)) {
-	        this.estado = Estado.finalizado;
+	public void actualizarEstadoProyecto(String nuevoEstado) {
+	    String estadoMayuscula = nuevoEstado.toUpperCase(); 	    // Convertimos a mayúsculas para comparar con las constantes
+//SI ES IGUAL A ALGUNA CONSTANTE QUE ESTA EN LA CLASE ESTADO, QUE SE ACTUALICE, SINO, IMPRIME ERROR
+	    if (estadoMayuscula.equals(Estado.activo) ||
+	    	estadoMayuscula.equals(Estado.pendiente) ||
+	    	estadoMayuscula.equals(Estado.finalizado)) {
+	        this.estado = estadoMayuscula;
 	    } else {
-	        this.estado = Estado.finalizado; // ya está finalizado, se mantiene
+	        System.out.println("Estado inválido: " + nuevoEstado);
 	    }
 	}
 //	public void actualizarEstado() {
