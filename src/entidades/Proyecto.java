@@ -42,9 +42,10 @@ public class Proyecto {
 	}
 	//LE PASAMOS EL OBJ TAREA Y LA CLAVE ES SU TITULO Y EL VALOR EL OBJ TAREA.
 	public void registrarTarea(Tarea tarea) {
+		if (tarea != null) {
 	    tareas.put(tarea.darTitulo(), tarea);
+	    }
 	}
-
 	//public void registrarTarea(String tituloTarea) {
 	//	if(!tareas.containsKey(tituloTarea)) {
 	//		tareas.put(tituloTarea,new Tarea()); // verificar 
@@ -83,9 +84,6 @@ public class Proyecto {
 	public Tarea buscarTarea(String tituloTarea) {
 		
 	    Tarea tarea = tareas.get(tituloTarea); //busco en el hashmap tareas, la tarea de tituloTarea, lo guardo en la variable tarea que es del tipo Tarea.
-	    if (tarea == null) {
-	        System.out.println("No se encontró la tarea con título: " + tituloTarea);
-	    }
 	    return tarea;
 	}
 //LISTO	

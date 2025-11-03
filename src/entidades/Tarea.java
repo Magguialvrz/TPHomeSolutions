@@ -12,17 +12,16 @@ public class Tarea {
 	private String estado;
 	
 	
-	public void crear(String titulo, String descripcion, double cantDias) {
-		
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.cantidadDias = cantDias;
-        this.empleadoAsignado = null;
+	public Tarea(String titulo, String descripcion, double cantidadDias) {
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.cantidadDias = cantidadDias;
+		 this.empleadoAsignado = null;
         this.diasDeRetraso = 0;
         this.costo = 0;
         this.estado = Estado.pendiente;
-	
 	}
+
 	//LISTA
 	public double darDiasRetraso() {
 		return this.diasDeRetraso;
