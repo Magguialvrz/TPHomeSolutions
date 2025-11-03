@@ -102,7 +102,10 @@ public class HomeSolution implements IHomeSolution {
 	            lista.add(new Tupla<>(proyecto.darIdentificacion(), proyecto.darEstado()));
 	        }
 	    }
-
+	    System.out.println("Cantidad de proyectos: " + Proyectos.values().size());
+	    for (Proyecto proyecto : Proyectos.values()) {
+	        System.out.println("Proyecto " + proyecto.darIdentificacion() + " pendiente? " + proyecto.estaPendiente());
+	    }
 	    return lista;
 	}
 	///VER
@@ -655,7 +658,7 @@ public class HomeSolution implements IHomeSolution {
 public Object[] empleadosNoAsignados() {
 	
 	    ArrayList<Integer> legajos = new ArrayList<>();
-
+	  
 	    for (Empleado e : Empleados.values()) {
 	        if (!e.estaAsignado()) { // o el método que indique si está asignado
 	            legajos.add(e.darNumLegajo());
