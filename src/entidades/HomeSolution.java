@@ -1,14 +1,16 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 
 
 public class HomeSolution implements IHomeSolution {
-	private HashMap <Integer, Proyecto> Proyectos;
-	private HashMap <Integer, Empleado> Empleados;
-	private int proximoLegajo = 1;
+    private HashMap<Integer, Proyecto> Proyectos = new HashMap<>();
+    private HashMap<Integer, Empleado> Empleados = new HashMap<>();
+    private int proximoLegajo = 1;
 	
 	//LISTA
 	public void agregarProyecto(int idProyecto) {
@@ -20,7 +22,7 @@ public class HomeSolution implements IHomeSolution {
         } else
             System.out.println("No se encontró un proyecto con ID ");
         }
-    }
+    
 	//LISTO
 	public LocalDate fechaFinalizacionProyecto(int idProyecto, LocalDate fecha) {
 		
@@ -72,37 +74,100 @@ public class HomeSolution implements IHomeSolution {
 	    return proximoLegajo++; // devuelve el siguiente legajo y lo incrementa
 	}
 	
-	
-	
-	
-		
-		
 
 	
 	public boolean estaFinalizado(int idProyecto) {
+		
+	    Proyecto proyecto = Proyectos.get(idProyecto); // buscamos el proyecto en el HashMap
+	    if (proyecto != null) { // si existe
+	        return Estado.finalizado.equals(proyecto.darEstado()); // comparamos el estado
+	    }
+	    return false; // si no existe el proyecto, devolvemos false
+		
 	
 	}
 	
 	public void reasignarEmpleado(int legajoEmpleado, String tituloTarea, int idProyecto) {
+		
+		  Proyecto proyecto = Proyectos.get(idProyecto);
+		    if (proyecto == null) {
+		        System.out.println("Proyecto no encontrado.");
+		        return;
+		    }
+
+		    Tarea tarea = proyecto.buscarTarea(tituloTarea);
+		    if (tarea == null) {
+		        System.out.println("Tarea no encontrada en el proyecto.");
+		        return;
+		    }
+
+		    Empleado empleadoAnterior = null;
+		    if (tarea.tieneEmpleado()) {
+		        empleadoAnterior = Empleados.get(legajoEmpleado);
+		        if (empleadoAnterior != null) {
+		            // Eliminar empleado de la tarea y actualizar estado
+		            tarea.eliminarEmpleadoAsignado();
+		            empleadoAnterior.actualizarEstado(); // pasa de asignado a libre
+		        }
+		    }
+
+		    // Buscar un nuevo empleado disponible distinto al anterior
+		    Empleado nuevoEmpleado = null;
+		    for (Empleado e : Empleados.values()) {
+		        if (!e.estaAsignado() && (empleadoAnterior == null || e.darNumLegajo() != empleadoAnterior.darNumLegajo())) {
+		            nuevoEmpleado = e;
+		            break;
+		        }
+		    }
+
+		    if (nuevoEmpleado != null) {
+		        tarea.asignarEmpleado(nuevoEmpleado);
+		        nuevoEmpleado.actualizarEstado(); // ahora está asignado
+		    } else {
+		        // No hay empleado disponible: marcar tarea como pendiente
+		        tarea.actualizarEstadoProyecto(Estado.pendiente);
+		    }
+		}
+	
+	
+	
+	public List<Proyecto> proyectosNoFinalizados() { // importe las libreriass array y list
+		// vi en la firma que 
+		
+	    List<Proyecto> lista = new ArrayList<>();
+	    
+	    for (Proyecto proyecto : Proyectos.values()) {
+	        if (!proyecto.estaFinalizado()) {  // verificamos que no esté finalizado
+	            lista.add(proyecto);
+	        }
+	    }
+	    
+	    return lista;
+		
 	
 	}
 	
-	public lista proyectosNoFinalizados() {
-	
-	}
-	
-	public lista proyectosPendientes() {
-	
+	@Override
+	public List<Tupla<Integer,String>> proyectosPendientes() { // me fije en la firma de listaProyectos, pero sigue apareciendo el error
+	    List<Tupla<Integer,String>> lista = new ArrayList<>();
+
+	    for (Proyecto proyecto : Proyectos.values()) {
+	        if (proyecto.estaPendiente()) {
+	            lista.add(new Tupla<>(proyecto.darIdentificacion(), proyecto.darEstado()));
+	        }
+	    }
+
+	    return lista;
 	}
 	 public Proyecto buscarProyecto(int idProyecto) {
 	        // Suponemos que la búsqueda se hace en la colección de proyectos
-	        return proyectos.get(idProyecto);
-	    }
-	public Proyecto buscarProyecto(int idProyecto) {
-	
-	}
+	        return Proyectos.get(idProyecto);
+    }
+
 	
 	public Empleado buscarEmpleado(int numLegajo) {
+		
+		
 	
 	}
 	

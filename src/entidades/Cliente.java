@@ -1,6 +1,6 @@
 package entidades;
 
-s
+
 public class Cliente {
 	
 	

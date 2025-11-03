@@ -20,7 +20,6 @@ public class Proyecto {
 	private List<Empleado> historialEmpleados; // lo cambine por List
 	
 	
-	
 	//VER TAREAS
 	public void crear(int identificacion, LocalDate fechaInicio, Cliente cliente, Tarea tareas) {
 	        this.identificacion = identificacion;
