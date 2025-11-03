@@ -165,13 +165,29 @@ public class HomeSolution implements IHomeSolution {
     }
 
 	
-	public Empleado buscarEmpleado(int numLegajo) {
+	public Empleado buscarEmpleado(int numLegajo) { // dado un numero de legajo podemos encontrar un empleado
 		
+		return Empleados.get(numLegajo);
 		
 	
 	}
 	
+
 	public void registrarRetraso(int idProyecto, String tituloTarea, double dias) {
+		
+	    Proyecto proyecto = Proyectos.get(idProyecto);
+
+	    if (proyecto != null) {
+	        Tarea tarea = proyecto.buscarTarea(tituloTarea);
+
+	        if (tarea != null) {
+	            tarea.actualizarDiasDeRetraso(dias);
+	        } else {
+	            System.out.println("No se encontró la tarea con título: " + tituloTarea);
+	        }
+	    } else {
+	        System.out.println("No se encontró el proyecto con ID: " + idProyecto);
+	    }
 	
 	}
 	
