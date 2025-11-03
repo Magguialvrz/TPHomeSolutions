@@ -93,13 +93,19 @@ public class Proyecto {
 		return this.identificacion;
 	}
 	//LISTA
-	public void actualizarFechaEstimadaFin(int dias) {
+	
+	public void actualizarFechaEstimadaFin(double dias) {
 	   if (this.fechaEstimadaFin != null) {
 		    this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
 		    // this.fechaEstimadaFin.sumarDias(dias); // supongo que es un error de fecha
 	   }
 	}
 	//LISTA
+	public void actualizarFechaRealFin(double dias) {
+	    if (this.fechaRealFin != null) {
+	        this.fechaRealFin = this.fechaRealFin.plusDays((long) dias);
+	    }
+	}
 	public void actualizarFechaRealFin(int dias) {
 		if(this.fechaRealFin != null) {
 		    this.fechaRealFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
