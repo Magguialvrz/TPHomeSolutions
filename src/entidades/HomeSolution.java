@@ -86,8 +86,8 @@ public class HomeSolution implements IHomeSolution {
 		
 	
 	}
-	
-	public void reasignarEmpleado(int legajoEmpleado, String tituloTarea, int idProyecto) {
+	//FUNCIONA
+	public void reasignarEmpleadoEnProyecto(int idProyecto, int legajoEmpleado, String tituloTarea) {
 		
 		  Proyecto proyecto = Proyectos.get(idProyecto);
 		    if (proyecto == null) {
@@ -130,7 +130,7 @@ public class HomeSolution implements IHomeSolution {
 		}
 	
 	
-	
+	//FUNCIONA
 	public List<Proyecto> proyectosNoFinalizados() { // importe las libreriass array y list
 		// vi en la firma que 
 		
@@ -144,9 +144,9 @@ public class HomeSolution implements IHomeSolution {
 	    
 	    return lista;
 		
-	
 	}
 	
+	//FUNCIONA
 	@Override
 	public List<Tupla<Integer,String>> proyectosPendientes() { // me fije en la firma de listaProyectos, pero sigue apareciendo el error
 	    List<Tupla<Integer,String>> lista = new ArrayList<>();
@@ -159,37 +159,21 @@ public class HomeSolution implements IHomeSolution {
 
 	    return lista;
 	}
+	///VER
 	 public Proyecto buscarProyecto(int idProyecto) {
 	        // Suponemos que la búsqueda se hace en la colección de proyectos
 	        return Proyectos.get(idProyecto);
     }
 
-	
+	//VER
 	public Empleado buscarEmpleado(int numLegajo) { // dado un numero de legajo podemos encontrar un empleado
-		
+	
 		return Empleados.get(numLegajo);
 		
 	
 	}
 	
-
-	public void registrarRetraso(int idProyecto, String tituloTarea, double dias) {
-		
-	    Proyecto proyecto = Proyectos.get(idProyecto);
-
-	    if (proyecto != null) {
-	        Tarea tarea = proyecto.buscarTarea(tituloTarea);
-
-	        if (tarea != null) {
-	            tarea.actualizarDiasDeRetraso(dias);
-	        } else {
-	            System.out.println("No se encontró la tarea con título: " + tituloTarea);
-	        }
-	    } else {
-	        System.out.println("No se encontró el proyecto con ID: " + idProyecto);
-	    }
 	
-	}
 	
 	public void asignarEmpleadoMenosRetrasos(int idProyecto, String tituloTarea) {
 	
@@ -274,10 +258,7 @@ public class HomeSolution implements IHomeSolution {
 	
 	}
 
-	public void registrarProyecto(int legajoEmpleado) {
-		
-	}
-
+	
 	@Override
 	public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException {
 	    int legajo = generarLegajo(); // legajo automático
@@ -297,7 +278,7 @@ public class HomeSolution implements IHomeSolution {
 		    Empleados.put(legajo, e);
 		}
 		
-	
+	/////////////////MAGUI////////////
 
 	@Override
 	public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio,
@@ -321,8 +302,24 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void registrarRetrasoEnTarea(Integer numero, String titulo, double cantidadDias)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		//IREP
+			if (numero == null || titulo == null || titulo.isEmpty() || cantidadDias <= 0) {
+			       throw new IllegalArgumentException("Parámetros inválidos para registrar el retraso.");
+			   }
+
+			    Proyecto proyecto = Proyectos.get(numero);
+			    if (proyecto == null) {
+			        throw new IllegalArgumentException("No existe un proyecto con número: " + numero);
+			    }
+
+			    Tarea tarea = proyecto.buscarTarea(titulo);
+			    if (tarea == null) {
+			        throw new IllegalArgumentException("No se encontró la tarea con título: " + titulo);
+			    }
+
+			    // Si todo está bien, se aplica el retraso
+			    tarea.actualizarDiasDeRetraso(cantidadDias);
+			    proyecto.actualizarFechaRealFin(cantidadDias);		
 	}
 
 	@Override
@@ -361,7 +358,7 @@ public class HomeSolution implements IHomeSolution {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-// hasta aca, si podes mas joya 
+
 	@Override
 	public boolean estaFinalizado(Integer numero) {
 		// TODO Auto-generated method stub
@@ -507,4 +504,5 @@ public class HomeSolution implements IHomeSolution {
 		
 		//return null;
 	}
+	//BRAIAN///////////////
 }
