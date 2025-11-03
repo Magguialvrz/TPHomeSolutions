@@ -29,7 +29,7 @@ public class Proyecto {
 	        this.direccion = "";
 	        this.costo = 0;
 	        this.costoFinal = 0;
-	        this.estado = "pendiente";
+	        this.estado = Estado.pendiente;
 	        this.historialEmpleados = new ArrayList<>();
 	}
 	//LISTO
@@ -93,10 +93,11 @@ public class Proyecto {
 	//LISTA
 	
 	public void actualizarFechaEstimadaFin(double dias) {
-	   if (this.fechaEstimadaFin != null) {
-		    this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
-		    // this.fechaEstimadaFin.sumarDias(dias); // supongo que es un error de fecha
-	   }
+	    if (this.fechaEstimadaFin != null) {
+	        // Redondeamos siempre para arriba
+	        long diasASumar = (long) Math.ceil(dias);
+	        this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(diasASumar);
+	    }
 	}
 	//LISTA
 	public void actualizarFechaRealFin(double dias) {

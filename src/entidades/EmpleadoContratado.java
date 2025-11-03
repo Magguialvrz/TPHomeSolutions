@@ -16,4 +16,9 @@ public class EmpleadoContratado extends Empleado {
 	public double cobrarPagoBase(double diasTrabajados) {
 		return this.costoHora * 8 * diasTrabajados;
 		}
+	@Override
+	public double cobrarPagoBase(int dias) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
