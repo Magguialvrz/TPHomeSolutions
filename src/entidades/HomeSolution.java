@@ -361,23 +361,58 @@ public class HomeSolution implements IHomeSolution {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+// hasta aca, si podes mas joya 
 	@Override
 	public boolean estaFinalizado(Integer numero) {
 		// TODO Auto-generated method stub
+	    Proyecto proyecto = Proyectos.get(numero);
+
+	    if (proyecto != null) {
+	        return proyecto.darEstado().equals(Estado.finalizado);
+	    }
 		return false;
 	}
 
 	@Override
 	public int consultarCantidadRetrasosEmpleado(Integer legajo) {
 		// TODO Auto-generated method stub
-		return 0;
+		Empleado empleado = Empleados.get(legajo);
+
+	    if (empleado == null) {
+	        System.out.println("Empleado no encontrado con legajo: " + legajo);
+	        return 0; // devuelve 0 si no existe el empleado , dejamos el return porque ya venia con el metodo
+	    } else {
+	        return empleado.darCantidadRetrasos(); //devuelve los retrasos del empleado 
+	    }
+		
 	}
 
 	@Override
 	public List<Tupla<Integer, String>> empleadosAsignadosAProyecto(Integer numero) {
 		// TODO Auto-generated method stub
-		return null;
+	    List<Tupla<Integer, String>> lista = new ArrayList<>();
+	    Proyecto proyecto = Proyectos.get(numero);
+
+	    if (proyecto == null) {
+	        System.out.println("Proyecto no encontrado con ID: " + numero);
+	        return lista; // devuelve lista vacía
+	    }
+
+	    for (Tarea tarea : proyecto.darTareas().values()) {
+	        if (tarea.tieneEmpleado()) {
+	            Empleado empleado = tarea.darEmpleadoAsignado(); //  nuevo metodo en Clase tarea 
+	            if (empleado != null) {
+	                lista.add(new Tupla<>(empleado.darNumLegajo(), empleado.darNombre()));
+	            }
+	        }
+	    }
+	    
+	    if (lista.isEmpty()) {
+	        return null; // este return null ya venia con el metodo, lo deje por si no hay empleado asignado 
+	    }
+	    
+	    return lista; // y aca devolvemos la lista de empleados asignados en caso de que tenga
+		 
 	}
 
 	@Override
@@ -387,32 +422,89 @@ public class HomeSolution implements IHomeSolution {
 	}
 
 	@Override
-	public Object[] tareasDeUnProyecto(Integer numero) {
+	public Object[] tareasDeUnProyecto(Integer numero) { // calculo que tiene un error la descripcion 
+		
 		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		Proyecto proyecto = Proyectos.get(numero);
+		
+		if(proyecto == null) {
+			System.out.println("Proyecto no encontrado con ID" + numero);
+			return null;
+		}
+	  
+
+			if (proyecto.darTareas().isEmpty()) {
+				return null; // no hay tareas asignadas
+				
+			}
+    
+
+				// Creamos un array de objetos con todas las tareas
+				Object[] tareasArray = proyecto.darTareas().values().toArray();
+					return tareasArray;
+			}
+		
+	
 
 	@Override
-	public String consultarDomicilioProyecto(Integer numero) {
+	public String consultarDomicilioProyecto(Integer numero) { // le damos el numero
 		// TODO Auto-generated method stub
-		return null;
+		
+		Proyecto proyecto = Proyectos.get(numero); 
+		
+		if(proyecto != null) {
+			return proyecto.darDireccion(); // retorna la direccion de un proyecto
+		}else {
+			return null;
+		}
 	}
 
 	@Override
 	public boolean tieneRestrasos(Integer legajo) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		Empleado empleado = Empleados.get(legajo);
+		
+		if(empleado == null) {
+			System.out.println("el empleado no existe"+legajo);
+			
+		}
+		return empleado.tuvoRetraso(); // esta ya nos da true o false en caso de que tenga o no retraso 
+		
 	}
 
 	@Override
 	public List<Tupla<Integer, String>> empleados() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		   if (Empleados.isEmpty()) {
+		        return null; // no hay empleados registrados // uso el null que ya estaba en el metodo
+		    }
+
+	    List<Tupla<Integer, String>> lista = new ArrayList<>();
+
+	    for (Empleado empleado : Empleados.values()) {
+	        lista.add(new Tupla<>(empleado.darNumLegajo(), empleado.darNombre()));
+	    }
+
+	    return lista;
+	
 	}
 
 	@Override
-	public String consultarProyecto(Integer numero) {
+	public String consultarProyecto(Integer numero) { // cielos ta dificil
 		// TODO Auto-generated method stub
-		return null;
+		
+		   Proyecto proyecto = Proyectos.get(numero);
+
+		    if (proyecto == null) {
+		        System.out.println("Proyecto no encontrado con ID: " + numero);
+		        return null; // proyecto no existe
+		    }
+
+		    return proyecto.toString();
+		
+		//return null;
 	}
 }

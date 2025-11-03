@@ -126,6 +126,10 @@ public class Proyecto {
 	public HashMap<String, Tarea> darTareas() {
 	    return new HashMap<>(Collections.unmodifiableMap(this.tareas)); //Crea una copia HASHMAP de mis tareas, si bien pueden modificarla, no afecta a nuestras tareas
 	}
+	
+	public String darDireccion () {
+		return this.direccion;
+	}
 
 	//public Diccionario <String,Tarea> darTareas() {
 		//return this.tareas;

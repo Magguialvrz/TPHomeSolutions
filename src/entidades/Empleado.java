@@ -48,6 +48,9 @@ public abstract class Empleado {
 	public String darEstado() {
 		return this.estado;
 	}
+	public String darNombre() { // agregue esta para el metodo empleadosAsignadosAProyecto
+	    return this.nombre;
+	}
 	
 	// abs // cambie int dias porque en tarea tiraba error cuando usaba el metodo
 	public abstract double cobrarPagoBase(int dias) ;

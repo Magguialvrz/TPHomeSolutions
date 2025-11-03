@@ -119,6 +119,10 @@ public class Tarea {
 	
 	}
 	
+	public Empleado darEmpleadoAsignado() {
+	    return this.empleadoAsignado;
+	}
+	
 
 
 	@Override
