@@ -479,12 +479,8 @@ public class HomeSolution implements IHomeSolution {
 		if (proyecto == null) {
 	        throw new IllegalArgumentException("No existe un proyecto con número: " + numero);
 	    }
-		double costoFinal = 0.0;
 		
-		for (Tarea tarea : proyecto.darTareas().values()) {
-				costoFinal += costoFinal + tarea.darCostoFinal();
-		}
-		return costoFinal;
+		return proyecto.darCostoFinal();
 	}
 	///////////////////LISTA
 

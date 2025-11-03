@@ -12,7 +12,7 @@ public class Proyecto {
 	private LocalDate fechaEstimadaFin;
 	private LocalDate fechaRealFin;
 	private Cliente cliente;
-	private HashMap <String, Tarea> tareas; // ES HASHMAPcambie Diccionario por Map, IA me dijo que en java se usa asi, a confirmar
+	private HashMap <String, Tarea> tareas; 
 	private String direccion;
 	private double costo;
 	private double costoFinal;
@@ -78,7 +78,25 @@ public class Proyecto {
 	
 	//LISTO
 	public double darCostoFinal() {
-		return this.costoFinal;
+        double total = 0;
+        boolean huboRetraso = false;
+		//recorremos las tareas
+		for (Map.Entry<String, Tarea> entry : tareas.entrySet()) {
+            Tarea t = entry.getValue();			
+		
+            t.calcularCostoBase(); //calculamos el costo base
+            
+            if (t.hayRetraso()) {
+            	t.actualizarCosto(t.darDiasRetraso());
+            	huboRetraso=true;
+            }
+            total += t.darCostoFinal();
+		}
+		total*=1.35;
+		if (huboRetraso) {
+			total*=0.75;
+		}
+		return total;
 	}
 	//LISTO
 	public Tarea buscarTarea(String tituloTarea) {

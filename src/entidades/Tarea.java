@@ -10,7 +10,7 @@ public class Tarea {
 	private double diasDeRetraso;
 	private double costo;
 	private String estado;
-	
+	private double costoFinal;
 	
 	public Tarea(String titulo, String descripcion, double cantidadDias) {
 		this.titulo = titulo;
@@ -35,6 +35,8 @@ public class Tarea {
 	public void modificarCantDias(double diasDeRetraso) {
 	
 		this.cantidadDias += diasDeRetraso;
+		actualizarCosto(diasDeRetraso);
+		
 	}
 	
 	//LISTA
@@ -52,23 +54,35 @@ public class Tarea {
 		this.empleadoAsignado = null;
 	
 	}
+	//consideramos los retrasos
+	 public void calcularCostoBase() {
+	        if (darEmpleadoAsignado() instanceof EmpleadoContratado) {
+	            EmpleadoContratado contratado = (EmpleadoContratado) empleadoAsignado;
+	            this.costoFinal = contratado.cobrarPagoBase(cantidadDias);
+	        }
+	        if (darEmpleadoAsignado() instanceof EmpleadoDePlanta) {
+	        	EmpleadoDePlanta dePlanta = (EmpleadoDePlanta) empleadoAsignado;
+	        	this.costoFinal = dePlanta.cobrarPagoBase(cantidadDias);
+	        }
+	 }
+	        
+	public void actualizarCosto(double diasExtras) {
+		double costoExtra;
+		 if (darEmpleadoAsignado() instanceof EmpleadoContratado) {
+	            EmpleadoContratado contratado = (EmpleadoContratado) empleadoAsignado;
+	             costoExtra = contratado.cobrarPagoBase(diasExtras);
+	             this.costoFinal += costoExtra;
+		 }
+	        if (darEmpleadoAsignado() instanceof EmpleadoDePlanta) {
+	        	EmpleadoDePlanta dePlanta = (EmpleadoDePlanta) empleadoAsignado;
+	             costoExtra = dePlanta.cobrarPagoBase(diasExtras);
+	             this.costoFinal += costoExtra;
+	        }
+	        }
 	
-//////////////////
-	//NO ME ACUERDO QUE TIENE QUE HACER ESTE METODO
-	//////////////////////////
-//	public void actualizarCosto(Object cantidadDias) {
-		
-	//	 double dias = (cantidadDias instanceof Number) ? ((Number) cantidadDias).doubleValue() : 0;
-	//     if (this.empleadoAsignado != null) {
-	  //   this.costo = this.empleadoAsignado.cobrarPagoBase(dias);
-	 //    }
-	//}//
-///////////////////////////////////
-	//NO ME ACUERDO EL CONTEXTO DEL METODO
-	/////////////////
+	        
 	public double darCostoFinal() {
-		
-		return this.costo;
+		return this.costoFinal;
 	
 	}
 	//LISTA

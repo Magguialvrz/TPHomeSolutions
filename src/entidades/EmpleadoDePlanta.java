@@ -16,9 +16,8 @@ public class EmpleadoDePlanta extends Empleado {
 		return this.valorPorDia;
 	}
 	
-	public double cobrarPagoBase(int diasTrabajados) {
-		
-		int diasRedondeados = (int) Math.ceil(diasTrabajados);
+	public double cobrarPagoBase(double cantidadDias) {
+		int diasRedondeados = (int) Math.ceil(cantidadDias);
 		double base = this.valorPorDia * diasRedondeados;
         double adicional = base * 0.02;
         return base + adicional;
