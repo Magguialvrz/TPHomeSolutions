@@ -260,6 +260,10 @@ public class HomeSolution implements IHomeSolution {
 		
 	@Override
 	public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException {
+		
+		if(valor < 0) {
+			throw new IllegalArgumentException("El valor no puede ser negativo");
+		}
 	    int legajo = generarLegajo(); // legajo automático
 	    EmpleadoContratado e = new EmpleadoContratado();
 	    e.crearEmpleadoContratado(nombre, legajo, valor);
@@ -270,6 +274,11 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void registrarEmpleado(String nombre, double valor, String categoria) throws IllegalArgumentException {
+		if(valor < 0) {
+			throw new IllegalArgumentException("El valor no puede ser negativo");
+		}
+		
+		
 		int legajo = generarLegajo(); 
 		    EmpleadoDePlanta e = new EmpleadoDePlanta();
 		    e.crearEmpleadoPlanta(nombre, legajo, valor, categoria);

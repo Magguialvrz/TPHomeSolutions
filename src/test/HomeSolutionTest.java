@@ -43,7 +43,7 @@ public class HomeSolutionTest {
         assertEquals(5, noAsignados.length);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class) // aprobado 
     public void testRegistrarEmpleadoValorNegativoLanzaExcepcion() {
         homeSolution.registrarEmpleado("Pedro", -200);
     }
@@ -132,7 +132,7 @@ public class HomeSolutionTest {
         assertTrue(homeSolution.proyectosActivos().size()==1);
     }
     @Test(expected = Exception.class)
-    public void testSinEmpleadosParaAsignar() throws Exception {
+    public void testSinEmpleadosParaAsignar() throws Exception { // aprobado
         Integer numeroProyecto = (homeSolution.proyectosPendientes().get(0)).getValor1();
         homeSolution.agregarTareaEnProyecto(numeroProyecto,"Limpieza","limpieza general",1);
         asignarTareas(numeroProyecto);
