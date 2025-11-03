@@ -199,12 +199,34 @@ public class HomeSolution implements IHomeSolution {
 	
 	}
 	
+	@Override
+	public List<Tupla<Integer,String>> proyectosFinalizados() {
+		
+	    List<Tupla<Integer,String>> lista = new ArrayList<>();
 
-	public list proyectosFinalizados() {
+	    for (Proyecto proyecto : Proyectos.values()) {
+	        if (proyecto.estaFinalizado()) {
+	            lista.add(new Tupla<>(proyecto.darIdentificacion(), proyecto.darEstado()));
+	        }
+	    }
+
+	    return lista;
 	
 	}
 	
-	public list proyectosActivos() {
+	@Override
+	public List<Tupla<Integer,String>> proyectosActivos() {
+		
+		List<Tupla<Integer,String>> lista = new ArrayList<>();
+		
+		for(Proyecto proyecto : Proyectos.values()) {
+			if(proyecto.estaActivo()) {
+				lista.add(new Tupla<>(proyecto.darIdentificacion(),proyecto.darEstado()));
+			}
+			
+		}
+		
+		return lista;
 	
 	}
 	
