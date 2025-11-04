@@ -25,7 +25,11 @@ public abstract class Empleado {
 	}
 	//LISTO
 	public void actualizarEstado() {
-		  this.estado = EstadoEmpleado.asignado;
+	      if ( this.estado.equals(EstadoEmpleado.asignado)) {
+	            this.estado =EstadoEmpleado.libre;
+	        } else {
+	            this.estado =EstadoEmpleado.asignado;
+	        }
 	}
 	//LISTO
 	public boolean tuvoRetraso() {
@@ -47,7 +51,12 @@ public abstract class Empleado {
 	public String darNombre() { // agregue esta para el metodo empleadosAsignadosAProyecto
 	    return this.nombre;
 	}
+	public void seRetraso() {
+		this.tuvoRetraso=true;	}
 	
-	// abs // cambie int dias porque en tarea tiraba error cuando usaba el metodo
-	public abstract double cobrarPagoBase(int dias) ;
+	public void liberarEmpleado() {
+	    this.estado = EstadoEmpleado.libre; 
+	}
+	
+	public abstract double cobrarPagoBase(double dias) ;
 }

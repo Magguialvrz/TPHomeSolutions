@@ -139,10 +139,15 @@ public class Proyecto {
 		return this.fechaEstimadaFin;
 	}
 	//LISTO
+	public LocalDate darFechaInicio() {
+	return this.fechaInicio;
+	}
 	public LocalDate darFechaRealFin() {
 		return this.fechaRealFin;
 	}
-	//LISTO
+	public void setFechaRealFin(LocalDate fecha) {
+	    this.fechaRealFin = fecha;
+	}	//LISTO
 	public String darEstado() {
 		return this.estado;
 	}
@@ -153,8 +158,4 @@ public class Proyecto {
 	public String darDireccion () {
 		return this.direccion;
 	}
-
-	//public Diccionario <String,Tarea> darTareas() {
-		//return this.tareas;
-	//}
 }

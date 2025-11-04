@@ -12,13 +12,9 @@ public class EmpleadoContratado extends Empleado {
 	public double darCosto() {
 		return this.costoHora;
 	}
-	//LISTO
-	public double cobrarPagoBase(double diasTrabajados) {
-		return this.costoHora * 8 * diasTrabajados;
-		}
+	
 	@Override
-	public double cobrarPagoBase(int dias) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double cobrarPagoBase(double dias) {
+		return this.costoHora * 8 * dias;
 	}
 }

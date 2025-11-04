@@ -136,8 +136,6 @@ public class Tarea {
 	    return this.empleadoAsignado;
 	}
 	
-
-
 	@Override
 	public String toString(){
 		return this.darTitulo();

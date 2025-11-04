@@ -16,16 +16,16 @@ public class EmpleadoDePlanta extends Empleado {
 		return this.valorPorDia;
 	}
 	
-	public double cobrarPagoBase(double cantidadDias) {
-		int diasRedondeados = (int) Math.ceil(cantidadDias);
-		double base = this.valorPorDia * diasRedondeados;
-        double adicional = base * 0.02;
-        return base + adicional;
-	
-	}
-	
 	public double cobrarSinAdicional(double diasTrabajados) { // lo cambie de void a double 
 		int diasRedondeados = (int) Math.ceil(diasTrabajados);
 		return this.valorPorDia * diasRedondeados;
+	}
+
+	@Override
+	public double cobrarPagoBase(double dias) {
+		int diasRedondeados = (int) Math.ceil(dias);
+		double base = this.valorPorDia * diasRedondeados;
+        double adicional = base * 0.02;
+        return base + adicional;
 	}
 }

@@ -1,6 +1,7 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -229,6 +230,9 @@ public class HomeSolution implements IHomeSolution {
 	    //pasamos las fechas a estilo de fecha
 	    LocalDate fechaInicio = LocalDate.parse(inicio);
 	    LocalDate fechaFin = LocalDate.parse(fin);
+	    if (fechaInicio.isAfter(fechaFin)) {
+	    	throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la fecha de fin");
+			}
 	    //irep del cliente
 	    //sus paarametros no nulos
 	    if (cliente == null || cliente.length < 3
@@ -302,47 +306,55 @@ public class HomeSolution implements IHomeSolution {
 		    throw new Exception("No hay empleados disponibles para asignar a la tarea \"" + titulo + "\".");
 		}		
 	
-
-	@Override
 	public void asignarResponsableMenosRetraso(Integer numero, String titulo) throws Exception {
-			Proyecto proyecto = buscarProyecto(numero);
-			 if (proyecto == null) {
-			        throw new Exception("No se encontró un proyecto con ID " + numero);
-			    }
-			 if (proyecto.estaFinalizado()) {
-			        throw new Exception("El proyecto: " + numero + "esta finalizado");
-			 }
-			 Tarea tarea = proyecto.buscarTarea(titulo);
-			 if (tarea == null) {
-			        throw new Exception("No se encontró la tarea con título \"" + titulo + "\" en el proyecto " + numero);
-			    }
-			 if (tarea.tieneEmpleado()) {
-			        throw new Exception("La tarea" + titulo + "ya tiene empleado asignado");
-			 }
-			 Empleado mejorEmpleado = null;  //empleado del tipo null
-			 //vamos a recorrer los empleados tomando como referencia al primero
-			 for (Empleado emp : Empleados.values()) {
-				    if (mejorEmpleado == null) {
-				        mejorEmpleado = emp; // el primer empleado será nuestra referencia
-				    }
+	    Proyecto proyecto = buscarProyecto(numero);
+	    if (proyecto == null) {
+	        throw new Exception("No se encontró un proyecto con ID " + numero);
+	    }
+	    if (proyecto.estaFinalizado()) {
+	        throw new Exception("El proyecto: " + numero + " está finalizado");
+	    }
 
-				    if (!emp.tuvoRetraso()) {
-				        mejorEmpleado = emp; // no tiene retrasos
-				             break;       // ponemos break para cortar el for, no hace falta seguir buscando, encontramos el primero sin retraso
-				    }
-				    // si todos tienen retrasos, nos quedamos con el que tenga menos, vamos comparando todos los empleados con el primero, si hay uno que tenga menos lo asigno como nuevo mejorEmpleado
-				    if (emp.darCantidadRetrasos() < mejorEmpleado.darCantidadRetrasos()) {
-				        mejorEmpleado = emp;
-				    }
-				}
-			   if(mejorEmpleado == null) {
-				   throw new Exception("No hay empleados disponibles para asignar");
-				   
-			   }
-			 tarea.asignarEmpleado(mejorEmpleado); //lo asigna
-			 mejorEmpleado.actualizarEstado(); //pone en ocupado al empleado
+	    Tarea tarea = proyecto.buscarTarea(titulo);
+	    if (tarea == null) {
+	        throw new Exception("No se encontró la tarea con título \"" + titulo + "\" en el proyecto " + numero);
+	    }
+	    if (tarea.tieneEmpleado()) {
+	        throw new Exception("La tarea \"" + titulo + "\" ya tiene empleado asignado");
+	    }
+
+	    Empleado mejorEmpleado = null;
+
+	    // 🔹 Recorremos todos los empleados
+	    for (Empleado emp : Empleados.values()) {
+	        // 🔹 Solo consideramos empleados no asignados
+	        if (!emp.estaAsignado()) {
+
+	            // Si aún no tenemos candidato, tomamos este
+	            if (mejorEmpleado == null) {
+	                mejorEmpleado = emp;
+	            }
+
+	            // Si no tuvo retrasos, es el mejor posible → elegimos y cortamos
+	            if (!emp.tuvoRetraso()) {
+	                mejorEmpleado = emp;
+	                break;
+	            }
+
+	            // Si ambos tienen retrasos, comparamos quién tiene menos
+	            if (emp.darCantidadRetrasos() < mejorEmpleado.darCantidadRetrasos()) {
+	                mejorEmpleado = emp;
+	            }
+	        }
+	    }
+
+	    if (mejorEmpleado == null) {
+	        throw new Exception("No hay empleados disponibles para asignar");
+	    }
+
+	    tarea.asignarEmpleado(mejorEmpleado);
+	    mejorEmpleado.actualizarEstado(); // lo marca como ocupado
 	}
-
 	@Override
 	public void registrarRetrasoEnTarea(Integer numero, String titulo, double cantidadDias)
 			throws IllegalArgumentException {
@@ -361,6 +373,11 @@ public class HomeSolution implements IHomeSolution {
 			    // Si todo está bien, se aplica el retraso en tareaa
 			    tarea.actualizarDiasDeRetraso(cantidadDias);
 			    proyecto.actualizarFechaRealFin(cantidadDias);		
+			    Empleado responsable = tarea.darEmpleadoAsignado();
+			    if (responsable != null) {
+			        responsable.seRetraso(); 
+			        responsable.actualizarCantRetrasos();
+			    }
 	}
 //LISTO////////////////////////////////////////////
 	@Override
@@ -407,6 +424,30 @@ public class HomeSolution implements IHomeSolution {
 	    if (proyecto.estaFinalizado()) {
 	        throw new IllegalArgumentException("El proyecto" + numero + "se encuentra finalizado");
 	    }
+	    LocalDate fechaFin;
+	    try {
+	        fechaFin = LocalDate.parse(fin);
+	    } catch (DateTimeParseException e) {
+	        throw new IllegalArgumentException("Formato de fecha inválido. Debe ser YYYY-MM-DD.");
+	    }
+
+	    // validamos que la fecha no sea anterior a la fecha de inicio
+	    if (fechaFin.isBefore(proyecto.darFechaInicio())) {
+	        throw new IllegalArgumentException("La fecha de finalización no puede ser anterior a la fecha de inicio.");
+	    }
+
+	    for (Tarea tarea : proyecto.darTareas().values()) {
+	        Empleado emp = tarea.darEmpleadoAsignado();
+	        if (emp != null) {
+	            emp.liberarEmpleado(); // se libera el empleado
+	            tarea.eliminarEmpleadoAsignado(); 
+	        }
+	    }
+	    // Registramos la fecha real de finalización
+	    proyecto.setFechaRealFin(fechaFin);
+
+	    // Actualizamos estado del proyecto
+	    proyecto.actualizarEstadoProyecto("FINALIZADO");
 	    
 	    for (Tarea t : proyecto.darTareas().values()) {
 	        Empleado e = t.darEmpleadoAsignado();
@@ -417,7 +458,9 @@ public class HomeSolution implements IHomeSolution {
 	    }
 	    proyecto.actualizarEstadoProyecto(Estado.finalizado);
 	    
+
 	}
+	
 	///////////////////LISTA
 
 	@Override
