@@ -13,8 +13,9 @@ public class HomeSolution implements IHomeSolution {
     private HashMap<Integer, Empleado> Empleados = new HashMap<>();
     private int proximoLegajo = 1;
 	int proximoProyecto =1;
-	///////////SE QUEDA
-    public void agregarProyecto(Proyecto proyecto) {
+
+	
+	public void agregarProyecto(Proyecto proyecto) {
         if (proyecto != null) {
             int idProyecto = proyecto.darIdentificacion();
             Proyectos.put(idProyecto, proyecto);
@@ -24,7 +25,6 @@ public class HomeSolution implements IHomeSolution {
         }
     }
     
-	//LISTO
 	public LocalDate fechaFinalizacionProyecto(int idProyecto, LocalDate fecha) {
 		
 			Proyecto proyecto = buscarProyecto(idProyecto); //busca el proyecto dado su id
@@ -71,13 +71,6 @@ public class HomeSolution implements IHomeSolution {
 	    System.out.println("No hay empleados disponibles para asignar a la tarea " + tituloTarea);
 	}
 	
-
-	
-
-	//FUNCIONA
-	
-	
-	//FUNCIONA
 	public List<Proyecto> proyectosNoFinalizados() { // importe las libreriass array y list
 		// vi en la firma que 
 		
@@ -93,7 +86,6 @@ public class HomeSolution implements IHomeSolution {
 		
 	}
 	
-	//FUNCIONA
 	@Override
 	public List<Tupla<Integer,String>> proyectosPendientes() { // me fije en la firma de listaProyectos, pero sigue apareciendo el error
 	    List<Tupla<Integer,String>> lista = new ArrayList<>();
@@ -109,13 +101,11 @@ public class HomeSolution implements IHomeSolution {
 	    }
 	    return lista;
 	}
-	///VER
 	 public Proyecto buscarProyecto(int idProyecto) {
 	        // Suponemos que la búsqueda se hace en la colección de proyectos
 	        return Proyectos.get(idProyecto);
     }
 
-	//VER
 	public Empleado buscarEmpleado(int numLegajo) { // dado un numero de legajo podemos encontrar un empleado
 		return Empleados.get(numLegajo);
 	
@@ -151,11 +141,8 @@ public class HomeSolution implements IHomeSolution {
 			if(proyecto.estaActivo()) {
 				lista.add(new Tupla<>(proyecto.darIdentificacion(),proyecto.darEstado()));
 			}
-			
 		}
-		
 		return lista;
-	
 	}
 	
 	
@@ -164,19 +151,6 @@ public class HomeSolution implements IHomeSolution {
 	
 	}
 	
-	public void actualizarFechaProyectoSegunTarea(int idProyecto, String tituloTarea) {		
-		
-	}
-	
-	
-	public void liberarEmpleado(String tituloTarea) {
-	
-	}
-	
-	public void liberarEmpleadosDeProyecto(int idProyecto) {
-	
-	}
-
 	//creamos para registrar empleados
 		private int generarLegajo() {
 		    return proximoLegajo++; // devuelve el siguiente legajo y lo incrementa
@@ -206,12 +180,9 @@ public class HomeSolution implements IHomeSolution {
 		int legajo = generarLegajo(); 
 		    EmpleadoDePlanta e = new EmpleadoDePlanta();
 		    e.crearEmpleadoPlanta(nombre, legajo, valor, categoria);
-		    
 		    Empleados.put(legajo, e);
 		}
-		
-	/////////////////MAGUI////////////
-///////////LISTA
+	
 	@Override
 	public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio,
 			String[] cliente, String inicio, String fin) throws IllegalArgumentException {
@@ -271,7 +242,6 @@ public class HomeSolution implements IHomeSolution {
 	private int generarIdProyecto() {
 		return proximoProyecto++; // devuelve el siguiente numero de id y lo incrementa }
 	}
-//////////////////LISTA
 	@Override
 	public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
 		 Proyecto proyecto = buscarProyecto(numero); // busca el proyecto dado su id
@@ -325,9 +295,8 @@ public class HomeSolution implements IHomeSolution {
 
 	    Empleado mejorEmpleado = null;
 
-	    // 🔹 Recorremos todos los empleados
 	    for (Empleado emp : Empleados.values()) {
-	        // 🔹 Solo consideramos empleados no asignados
+	        //  Solo consideramos empleados no asignados
 	        if (!emp.estaAsignado()) {
 
 	            // Si aún no tenemos candidato, tomamos este
@@ -335,7 +304,7 @@ public class HomeSolution implements IHomeSolution {
 	                mejorEmpleado = emp;
 	            }
 
-	            // Si no tuvo retrasos, es el mejor posible → elegimos y cortamos
+	            // Si no tuvo retrasos, es el mejor posible  elegimos y cortamos
 	            if (!emp.tuvoRetraso()) {
 	                mejorEmpleado = emp;
 	                break;
@@ -347,11 +316,9 @@ public class HomeSolution implements IHomeSolution {
 	            }
 	        }
 	    }
-
 	    if (mejorEmpleado == null) {
 	        throw new Exception("No hay empleados disponibles para asignar");
 	    }
-
 	    tarea.asignarEmpleado(mejorEmpleado);
 	    mejorEmpleado.actualizarEstado(); // lo marca como ocupado
 	}
@@ -379,7 +346,6 @@ public class HomeSolution implements IHomeSolution {
 			        responsable.actualizarCantRetrasos();
 			    }
 	}
-//LISTO////////////////////////////////////////////
 	@Override
 	public void agregarTareaEnProyecto(Integer numero, String titulo, String descripcion, double dias)
 			throws IllegalArgumentException {
@@ -392,8 +358,6 @@ public class HomeSolution implements IHomeSolution {
 		    
 		    proyecto.registrarTarea(tarea); //la agregamos al proyecto
 		    		}
-	///////////////////LISTA
-	///////////////////LISTA
 
 	@Override
 	public void finalizarTarea(Integer numero, String titulo) throws Exception {
@@ -408,12 +372,8 @@ public class HomeSolution implements IHomeSolution {
 		    if (tarea == null || tarea.darEstado()==Estado.finalizado) {
 		        throw new IllegalArgumentException("No existe una tarea con título: " + titulo + "o se encuentra finalizada");
 		    }
-		    tarea.actualizarEstadoProyecto(Estado.finalizado);
+		    tarea.actualizarEstadoTarea(Estado.finalizado);
 		}		
-	///////////////////LISTA
-
-	
-	///////////////////LISTA
 
 	@Override
 	public void finalizarProyecto(Integer numero, String fin) throws IllegalArgumentException {
@@ -460,9 +420,6 @@ public class HomeSolution implements IHomeSolution {
 	    
 
 	}
-	
-	///////////////////LISTA
-
 	@Override
 	public void reasignarEmpleadoEnProyecto(Integer numero, Integer legajo, String titulo) throws Exception {
 	    Proyecto proyecto = buscarProyecto(numero); // Buscamos el proyecto
@@ -491,8 +448,6 @@ public class HomeSolution implements IHomeSolution {
    	    }
    	}
 	
-	///////////////////LISTA
-
 	@Override
 	
 	public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo) throws Exception {
@@ -525,8 +480,6 @@ public class HomeSolution implements IHomeSolution {
 	        throw new IllegalStateException("No hay empleados disponibles para reasignar la tarea \"" + titulo + "\".");
 	    }
 	}
-	
-	///////////////////LISTA
 
 	@Override
 	public double costoProyecto(Integer numero) {
@@ -537,8 +490,6 @@ public class HomeSolution implements IHomeSolution {
 		
 		return proyecto.darCostoFinal();
 	}
-	///////////////////LISTA
-
 	@Override
 	public boolean estaFinalizado(Integer numero) {
 		// TODO Auto-generated method stub
@@ -549,12 +500,6 @@ public class HomeSolution implements IHomeSolution {
 	    }
 	    return proyecto.darEstado().equals(Estado.finalizado);
 	    	}
-	///////////////////LISTA
-		
-	
-	
-	
-	///////////////////LISTA
 
 	@Override
 	public int consultarCantidadRetrasosEmpleado(Integer legajo) {
@@ -598,7 +543,6 @@ public class HomeSolution implements IHomeSolution {
 		 
 	}
 	
-//////LISTASS
 	@Override
 	public Object[] tareasProyectoNoAsignadas(Integer numero) {
 		  if (numero == null ) {
@@ -644,7 +588,6 @@ public class HomeSolution implements IHomeSolution {
 	
 
 	@Override
-	///LISTO!
 	public String consultarDomicilioProyecto(Integer numero) {
 	    if (numero == null) {
 	        throw new IllegalArgumentException("El número del proyecto no puede ser nulo");
@@ -657,21 +600,19 @@ public class HomeSolution implements IHomeSolution {
 
 	    return proyecto.darDireccion();
 	}
-//LISTA!
 	@Override
 	public boolean tieneRestrasos(Integer legajo) {
 		// TODO Auto-generated method stub
 		
 		Empleado empleado = Empleados.get(legajo);
 		
-		if(empleado == null) {
-			System.out.println("el empleado no existe"+legajo);
-			
-		}
+		if (empleado == null) {
+		        throw new IllegalArgumentException("No existe un empleado con legajo " + legajo);
+		    }			
+		
 		return empleado.tuvoRetraso(); // esta ya nos da true o false en caso de que tenga o no retraso 
 		
 	}
-//LISTA!
 	@Override
 	public List<Tupla<Integer, String>> empleados() {
 		// TODO Auto-generated method stub
@@ -689,7 +630,6 @@ public class HomeSolution implements IHomeSolution {
 	    return lista;
 	
 	}
-// VER QUE TIENE QUE DAR EL TOSTRING
 	@Override
 	public String consultarProyecto(Integer numero) { // cielos ta dificil
 		// TODO Auto-generated method stub
@@ -703,7 +643,6 @@ public class HomeSolution implements IHomeSolution {
 
 		    return proyecto.toString();
 	}
-	//BRAIAN///////////////
 
 @Override
 public Object[] empleadosNoAsignados() {
@@ -718,4 +657,5 @@ public Object[] empleadosNoAsignados() {
 
 	    return legajos.toArray();
 		}
+
 }

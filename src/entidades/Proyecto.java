@@ -20,7 +20,6 @@ public class Proyecto {
 	private List<Empleado> historialEmpleados; // lo cambine por List
 	
 	
-	//VER TAREAS
 	public void crear(int identificacion, LocalDate fechaInicio, Cliente cliente, Tarea tareas) {
 	        this.identificacion = identificacion;
 	        this.fechaInicio = fechaInicio;
@@ -32,11 +31,9 @@ public class Proyecto {
 	        this.estado = Estado.pendiente;
 	        this.historialEmpleados = new ArrayList<>();
 	}
-	//LISTO
 	public void guardarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	//LISTO
 	public void agregarDireccionVivienda(String direccion) {
 		this.direccion = direccion;
 	}
@@ -46,24 +43,15 @@ public class Proyecto {
 	    tareas.put(tarea.darTitulo(), tarea);
 	    }
 	}
-	//public void registrarTarea(String tituloTarea) {
-	//	if(!tareas.containsKey(tituloTarea)) {
-	//		tareas.put(tituloTarea,new Tarea()); // verificar 
-		//}
-	//} ESTE NO SIRVIRIA PQ CREA UNA TAREA VACIA.
-	//LISTO
 	public boolean estaPendiente() {
 	    return this.estado.equals(Estado.pendiente);
 	}
-	//LISTO
 	public boolean estaActivo() {
 	    return this.estado.equals(Estado.activo);
 	}
-	//LISTO
 	public boolean estaFinalizado() {
 	    return this.estado.equals(Estado.finalizado);
 	}
-	//LISTO
 	public void actualizarEstadoProyecto(String nuevoEstado) {
 	    String estadoMayuscula = nuevoEstado.toUpperCase(); 	    // Convertimos a mayúsculas para comparar con las constantes
 //SI ES IGUAL A ALGUNA CONSTANTE QUE ESTA EN LA CLASE ESTADO, QUE SE ACTUALICE, SINO, IMPRIME ERROR
@@ -76,7 +64,6 @@ public class Proyecto {
 	    }
 	}
 	
-	//LISTO
 	public double darCostoFinal() {
         double total = 0;
         boolean huboRetraso = false;
@@ -98,17 +85,14 @@ public class Proyecto {
 		}
 		return total;
 	}
-	//LISTO
 	public Tarea buscarTarea(String tituloTarea) {
 		
 	    Tarea tarea = tareas.get(tituloTarea); //busco en el hashmap tareas, la tarea de tituloTarea, lo guardo en la variable tarea que es del tipo Tarea.
 	    return tarea;
 	}
-//LISTO	
 	public int darIdentificacion() {
 		return this.identificacion;
 	}
-	//LISTA
 	
 	public void actualizarFechaEstimadaFin(double dias) {
 	    if (this.fechaEstimadaFin != null) {
@@ -117,7 +101,6 @@ public class Proyecto {
 	        this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(diasASumar);
 	    }
 	}
-	//LISTA
 	public void actualizarFechaRealFin(double dias) {
 	    if (this.fechaRealFin != null) {
 	        this.fechaRealFin = this.fechaRealFin.plusDays((long) dias);
@@ -128,17 +111,14 @@ public class Proyecto {
 		    this.fechaRealFin = this.fechaEstimadaFin.plusDays(dias); //a la fecha estimada, se le suma la cant de dias que se ingresan por parametro
 		}
 	}
-	//LISTA
 	public void registrarEmpleadoEnHistorial(Empleado empleado) {
         if (!historialEmpleados.contains(empleado)) { //Si no esta en la lista, agregarlo.
             historialEmpleados.add(empleado);
         }
 	}
-	//LISTO
 	public LocalDate darFechaEstimadaFin() {
 		return this.fechaEstimadaFin;
 	}
-	//LISTO
 	public LocalDate darFechaInicio() {
 	return this.fechaInicio;
 	}

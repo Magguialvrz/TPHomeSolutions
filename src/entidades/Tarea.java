@@ -22,16 +22,13 @@ public class Tarea {
         this.estado = Estado.pendiente;
 	}
 
-	//LISTA
 	public double darDiasRetraso() {
 		return this.diasDeRetraso;
 	}
-	//LISTA
 	public void actualizarDiasDeRetraso(double num) {
 		this.diasDeRetraso = num;
 	}
 	
-	//LISTA
 	public void modificarCantDias(double diasDeRetraso) {
 	
 		this.cantidadDias += diasDeRetraso;
@@ -39,7 +36,6 @@ public class Tarea {
 		
 	}
 	
-	//LISTA
 	public boolean tieneEmpleado() {
 		return this.empleadoAsignado != null;
 		
@@ -85,12 +81,12 @@ public class Tarea {
 		return this.costoFinal;
 	
 	}
-	//LISTA
 	public boolean hayRetraso() {
 		return this.diasDeRetraso > 0 ;
 	
 	}
-	public void actualizarEstadoProyecto(String nuevoEstado) {
+
+	public void actualizarEstadoTarea(String nuevoEstado) {
 	    String estadoMayuscula = nuevoEstado.toUpperCase(); 	    // Convertimos a mayúsculas para comparar con las constantes
 //SI ES IGUAL A ALGUNA CONSTANTE QUE ESTA EN LA CLASE ESTADO, QUE SE ACTUALICE, SINO, IMPRIME ERROR
 	    if (estadoMayuscula.equals(Estado.activo) ||
@@ -101,26 +97,21 @@ public class Tarea {
 	        System.out.println("Estado inválido: " + nuevoEstado);
 	    }
 	}
-
-	//LISTA
 	public String darTitulo() {
 		
 		return this.titulo;
 	
 	}
-	//LIST
 	public double darCantidadDias() {
 		
 		return this.cantidadDias;
 	
 	}
-	//LISTA
 	public String darEstado() {
 		
 		return this.estado;
 	
 	}
-	//LISTA
 	public int darLegajoEmpleado() {
 		
 		if(this.empleadoAsignado != null) {

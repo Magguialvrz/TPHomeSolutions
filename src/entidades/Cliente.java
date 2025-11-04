@@ -14,7 +14,6 @@ public class Cliente {
 		this.telefono = telefono;
 		this.email = email;
 	}
-	// VER SI SE NECESITAN LAS DE ABAJO
 		public String darNombre() {
 		
 			return this.nombre;

@@ -7,7 +7,6 @@ public abstract class Empleado {
 	private boolean tuvoRetraso;
 	private int cantDeRetraso;
 	
-	//LISTO
 	public void crearEmpleado(String nombre, int legajo) {
 	        this.nombre = nombre;
 	        this.numLegajo = legajo;
@@ -15,15 +14,12 @@ public abstract class Empleado {
 	        this.tuvoRetraso = false;
 	        this.cantDeRetraso = 0;
 	}
-	//LISTO
 	public int darNumLegajo() {
 		return this.numLegajo;
 	}
-	//LISTO
 	public boolean estaAsignado() {
 	    return this.estado.equals(EstadoEmpleado.asignado);	
 	}
-	//LISTO
 	public void actualizarEstado() {
 	      if ( this.estado.equals(EstadoEmpleado.asignado)) {
 	            this.estado =EstadoEmpleado.libre;
@@ -31,15 +27,12 @@ public abstract class Empleado {
 	            this.estado =EstadoEmpleado.asignado;
 	        }
 	}
-	//LISTO
 	public boolean tuvoRetraso() {
 		return this.tuvoRetraso;
 	}
-	//LISTO
 	public int darCantidadRetrasos() {
 		return this.cantDeRetraso;	
 	}
-	//LISTO
 	public void actualizarCantRetrasos() {
 		this.cantDeRetraso++;
 		this.tuvoRetraso = true;
