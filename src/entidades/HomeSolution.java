@@ -328,13 +328,17 @@ public class HomeSolution implements IHomeSolution {
 
 				    if (!emp.tuvoRetraso()) {
 				        mejorEmpleado = emp; // no tiene retrasos
-				        break;            // ponemos break para cortar el for, no hace falta seguir buscando, encontramos el primero sin retraso
+				             break;       // ponemos break para cortar el for, no hace falta seguir buscando, encontramos el primero sin retraso
 				    }
 				    // si todos tienen retrasos, nos quedamos con el que tenga menos, vamos comparando todos los empleados con el primero, si hay uno que tenga menos lo asigno como nuevo mejorEmpleado
 				    if (emp.darCantidadRetrasos() < mejorEmpleado.darCantidadRetrasos()) {
 				        mejorEmpleado = emp;
 				    }
 				}
+			   if(mejorEmpleado == null) {
+				   throw new Exception("No hay empleados disponibles para asignar");
+				   
+			   }
 			 tarea.asignarEmpleado(mejorEmpleado); //lo asigna
 			 mejorEmpleado.actualizarEstado(); //pone en ocupado al empleado
 	}
@@ -404,7 +408,15 @@ public class HomeSolution implements IHomeSolution {
 	        throw new IllegalArgumentException("El proyecto" + numero + "se encuentra finalizado");
 	    }
 	    
+	    for (Tarea t : proyecto.darTareas().values()) {
+	        Empleado e = t.darEmpleadoAsignado();
+	        if (e != null) {
+	            e.actualizarEstado();
+	            t.asignarEmpleado(null);// los libera
+	        }
+	    }
 	    proyecto.actualizarEstadoProyecto(Estado.finalizado);
+	    
 	}
 	///////////////////LISTA
 

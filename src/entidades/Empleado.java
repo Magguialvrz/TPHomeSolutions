@@ -25,11 +25,7 @@ public abstract class Empleado {
 	}
 	//LISTO
 	public void actualizarEstado() {
-	      if ( this.estado.equals(EstadoEmpleado.asignado)) {
-	            this.estado =EstadoEmpleado.libre;
-	        } else {
-	            this.estado =EstadoEmpleado.asignado;
-	        }
+		  this.estado = EstadoEmpleado.asignado;
 	}
 	//LISTO
 	public boolean tuvoRetraso() {
